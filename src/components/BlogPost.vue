@@ -1,48 +1,28 @@
 <template>
     <article>
-        <h2>{{ title }}</h2>
-        <p>{{ body }}</p>
+        <h2>{{ props.post.title }}</h2>
+        <p>{{ props.post.body }}</p>
         <div>
-            <like-action></like-action>
-            <trash-action></trash-action>
-            <RouterLink to="/post" class="action-link">Open comments</RouterLink>
-            <public-date :date="publicDate" />
-            <label-chip v-for="tag in tags" :value="tag"></label-chip>
-            
+            <like-action :count-likes="props.post.reactions.likes"></like-action>
+            <trash-action :count-trashes="props.post.reactions.dislikes"></trash-action>
+            <router-link :to="`/post/${props.post.id}`" class="action-link">Open comments</router-link>
+            <public-date :date="props.publicDate" />
+            <label-chip v-for="tag in props.post.tags" :value="tag"></label-chip>
         </div>
     </article>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import LikeAction from './LikeAction.vue';
 import TrashAction from './TrashAction.vue';
 import LabelChip from './LabelChip.vue';
 import PublicDate from './PublicDate.vue';
+import Post from '../types/post';
 
-export default {
-    props: {
-        id: {
-            type: Number,
-            required: true
-        },
-        title: {
-            required: true,
-            type: String,
-        },
-        body: {
-            required: true,
-            type: String,
-        },
-        tags: {
-            required: true,
-            type: Array<string>
-        },
-        publicDate: {
-            required: true,
-            type: Date
-        }
-    },
-
-    components: { LikeAction, TrashAction, LabelChip, PublicDate }
+interface PostProps {
+  post: Post,
+  publicDate: Date
 }
+
+const props = defineProps<PostProps>()
 </script>

@@ -12,7 +12,7 @@ export default {
     props: {
         countTrashes: {
             type: Number,
-            default: 0
+            required: true
         }
     },
 

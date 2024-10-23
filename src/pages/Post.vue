@@ -1,42 +1,34 @@
 <template>
-  <BlogPost title="His mother had always taught him" :id="1" :tags="['history', 'american', 'crime']"
-    :public-date="new Date()"
-    body="His mother had always taught him not to ever think of himself as better than others. He'd tried to live by this motto. He never looked down on those who were less fortunate or who had less money than him. But the stupidity of the group of people he was talking to made him change his mind." />
+    <blog-post v-if="post" :post="post" :public-date="new Date()" />
 
-    <post-comment v-for="comment in comments" :date="comment.publicDate" :comment="comment.text" :name="comment.name"  />
+    <post-comment v-for="comment in comments" :date="new Date()" :comment="comment.body" :name="comment.user.fullName" />
 </template>
 
-<script lang="ts">
-import BlogPost from '../components/BlogPost.vue';
-import PostComment from '../components/PostComment.vue';
+<script setup lang="ts">
+import BlogPost from '../components/BlogPost.vue'
+import PostComment from '../components/PostComment.vue'
+import { usePostsStore } from '../stores/posts';
+import { useCommentsStore } from '../stores/comments'
+import { onMounted, ref } from 'vue';
+import Post from '../types/post';
+import UserComment from '../types/user-comment';
 
-export default {
-  components: { BlogPost, PostComment },
-  data() {
-    return {
-        comments: [
-            {
-                name: 'Stas',
-                text: 'His mother had always taught him',
-                publicDate: new Date()
-            },
-            {
-                name: 'Stas',
-                text: 'His mother had always taught him',
-                publicDate: new Date()
-            },
-            {
-                name: 'Stas',
-                text: 'His mother had always taught him',
-                publicDate: new Date()
-            },
-            {
-                name: 'Stas',
-                text: 'His mother had always taught him',
-                publicDate: new Date()
-            }
-        ]
+const props = defineProps({
+    id: {
+        required: true,
+        type: String
     }
-  }
-}
+})
+
+const postsStore = usePostsStore()
+const post = ref<Post | null>(null)
+
+const commentsStore = useCommentsStore()
+const comments = ref<UserComment[]>([])
+
+onMounted(async () => {
+    post.value = await postsStore.loadByID(Number.parseInt(props.id))
+    comments.value = await commentsStore.loadAllCommentsByPost(Number.parseInt(props.id))
+});
+
 </script>
