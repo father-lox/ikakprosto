@@ -7,5 +7,12 @@ export default defineConfig({
   server: {
     host: true,
     port: 8080
-  }
+  },
+  // css: {
+  //   preprocessorOptions: {
+  //     scss: {
+  //       additionalData: `@import "./src/styles/_global.scss";`
+  //     }
+  //   }
+  // }
 })
