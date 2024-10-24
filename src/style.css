@@ -66,7 +66,8 @@ table {
 /* Base */
 html {
     font-size: 1px;
-    --color-chefs-hat: #f4f4f5;
+    --color-chefs-hat: #f4f4f4;
+    --color-dangerous-robot: #c8c8c8;
 }
 
 body {
