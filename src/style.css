@@ -1,0 +1,21 @@
+@font-face {
+    font-family: 'SFProText';
+    src: url('@/assets/fonts/SF-Pro-Text-Regular.woff2') format('woff2'),
+         url('@/assets/fonts/SF-Pro-Text-Regular.woff1') format('woff'),
+         url('@/assets/fonts/SF-Pro-Text-Regular.otf') format('otf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SFProText-Bold';
+    src: url('@/assets/fonts/SF-Pro-Text-Bold.woff2') format('woff2'),
+         url('@/assets/fonts/SF-Pro-Text-Bold.woff1') format('woff'),
+         url('@/assets/fonts/SF-Pro-Text-Bold.otf') format('otf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'SFProText', sans-serif;
+}
