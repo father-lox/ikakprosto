@@ -48,6 +48,8 @@ export default {
 </script>
 
 <style lang="scss">
+@use "sass:math";
+
 .delete {
     background: none;
     border: none;
@@ -101,7 +103,7 @@ export default {
 
     width: $size;
     height: $size;
-    border-radius: $size / 2;
+    border-radius: math.div($size, 2);
     overflow: hidden;
 
     outline: 5rem solid var(--color-black-text);
