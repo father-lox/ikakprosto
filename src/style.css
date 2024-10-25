@@ -68,9 +68,15 @@ html {
     font-size: 1px;
     --color-chefs-hat: #f4f4f4;
     --color-dangerous-robot: #c8c8c8;
+    --color-primary: #ff6b00;
+    --color-black: #040405;
+    --color-black-text: #05090E;
+    --color-red: #FF3B30;
+    --color-white: rgba(255, 255, 255, .95)
 }
 
 body {
     font-family: 'SFProText', sans-serif;
     font-size: 16rem;
+    color: var(--color-black);
 }
