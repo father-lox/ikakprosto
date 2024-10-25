@@ -6,10 +6,11 @@ import App from './App.vue';
 import Index from './pages/Index.vue';
 import Post from './pages/Post.vue';
 import { createPinia } from 'pinia'
+import { urlPathTemplates } from './constants';
 
 const routes = [
-  { path: '/', component: Index },
-  { path: '/post/:id', component: Post, props: true },
+  { path: urlPathTemplates.root, component: Index },
+  { path: urlPathTemplates.post, component: Post, props: true },
 ]
 
 const router = createRouter({
