@@ -5,17 +5,23 @@
     src: url('@/assets/fonts/SF-Pro-Text-Regular.woff2') format('woff2'),
          url('@/assets/fonts/SF-Pro-Text-Regular.woff1') format('woff'),
          url('@/assets/fonts/SF-Pro-Text-Regular.otf') format('otf');
-    font-weight: normal;
-    font-style: normal;
+    font-weight: 400;
 }
 
 @font-face {
-    font-family: 'SFProText-Bold';
+    font-family: 'SFProText';
     src: url('./assets/fonts/SF-Pro-Text-Bold.woff2') format('woff2'),
          url('./assets/fonts/SF-Pro-Text-Bold.woff1') format('woff'),
          url('./assets/fonts/SF-Pro-Text-Bold.otf') format('otf');
-    font-weight: normal;
-    font-style: normal;
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: 'SFProText-Semibold';
+    src: url('./assets/fonts/SF-Pro-Text-Semibold.woff2') format('woff2'),
+         url('./assets/fonts/SF-Pro-Text-Semibold.woff1') format('woff'),
+         url('./assets/fonts/SF-Pro-Text-Semibold.otf') format('otf');
+    font-weight: 600;
 }
 
 /* Reset */
