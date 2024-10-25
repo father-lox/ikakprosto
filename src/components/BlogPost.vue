@@ -7,7 +7,7 @@
                 <like-action :count-likes="props.post.reactions.likes"></like-action>
                 <trash-action :count-trashes="props.post.reactions.dislikes"></trash-action>
             </div>
-            <router-link :to="`/post/${props.post.id}`" class="post__action-link">Open comments</router-link>
+            <router-link v-if="!isPostPage" :to="`/post/${props.post.id}`" class="text-underline text-underline_low-opacity text-underline_color-primary post__action-link">Open comments</router-link>
             <public-date :public-date="props.publicDate" />
             <div class="post__tags">
                 <label-chip v-for="(tag, index) in props.post.tags" :value="tag" :is-first="index === 0"></label-chip>
@@ -22,13 +22,18 @@ import TrashAction from './TrashAction.vue';
 import LabelChip from './LabelChip.vue';
 import PublicDate from './PublicDate.vue';
 import Post from '../types/post';
+import { useRoute } from 'vue-router';
+import { urlPathTemplates } from '../constants';
 
 interface PostProps {
     post: Post,
     publicDate: Date
 }
 
+const route = useRoute()
 const props = defineProps<PostProps>()
+
+const isPostPage = route.matched.findIndex(url => url.path === urlPathTemplates.post) > -1;
 </script>
 
 <style lang="scss">
@@ -46,6 +51,7 @@ const props = defineProps<PostProps>()
 
     &__action-link {
         color: var(--color-primary);
+        text-decoration: none;
     }
 
     &__tags {
