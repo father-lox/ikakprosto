@@ -1,7 +1,14 @@
 <template>
-    <blog-post v-if="post" :post="post" :public-date="new Date()" />
-
-    <post-comment v-for="comment in comments" :date="new Date()" :comment="comment.body" :name="comment.user.fullName" />
+    <page>
+        <blog-post v-if="post" :post="post" :public-date="new Date()" />
+        <section class="comment-section">
+            <h3 class="heading">{{ comments.length }} comments</h3>
+            <div class="comment-section__list">
+                <post-comment v-for="comment in comments" :date="new Date()" :comment="comment.body"
+                    :name="comment.user.fullName" />
+            </div>
+        </section>
+    </page>
 </template>
 
 <script setup lang="ts">
@@ -12,6 +19,7 @@ import { useCommentsStore } from '../stores/comments'
 import { onMounted, ref } from 'vue';
 import Post from '../types/post';
 import UserComment from '../types/user-comment';
+import Page from '../components/Page.vue';
 
 const props = defineProps({
     id: {
@@ -32,3 +40,16 @@ onMounted(async () => {
 });
 
 </script>
+
+<style lang="scss">
+.comment-section {
+    margin: 42rem 0 0;
+
+    &__list {
+        display: flex;
+        flex-direction: column;
+        gap: 24rem;
+        margin: 24rem 0 0;
+    }
+}
+</style>
