@@ -14,7 +14,6 @@
 </template>
 
 <script lang="ts">
-import HeartIcon from '../icons/HeardIcon.vue';
 import GeneralReaction from './GeneralReaction.vue';
 
 export default {
@@ -25,7 +24,7 @@ export default {
         }
     },
 
-    components: { GeneralReaction, HeartIcon }
+    components: { GeneralReaction }
 }
 </script>
 

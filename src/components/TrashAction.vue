@@ -16,7 +16,6 @@
 </template>
 
 <script lang="ts">
-import TrashIcon from '../icons/TrashIcon.vue';
 import GeneralReaction from './GeneralReaction.vue';
 
 export default {
@@ -27,7 +26,7 @@ export default {
         },
     },
 
-    components: { GeneralReaction, TrashIcon }
+    components: { GeneralReaction }
 }
 </script>
 
