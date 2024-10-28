@@ -2,9 +2,10 @@ import { defineStore } from "pinia";
 import UserReaction from "../types/user-reactions";
 import { PostID } from "../types/alias";
 import Reactions from "../types/reactions";
+import ReactionStatistics from "../types/reaction-statistics";
 
 
-export const useReactions = defineStore('reactions', {
+export const useLocalReactions = defineStore('local-reactions', {
     state: () => ({ 
         reactions: {} as {[k: string]: UserReaction}
     }),
@@ -14,15 +15,15 @@ export const useReactions = defineStore('reactions', {
     },
     actions: {
 
-        toLike(id: PostID) {
-            this.react(id, Reactions.LIKE)
+        toLike(id: PostID, counts: ReactionStatistics) {
+            this.react(id, Reactions.LIKE, counts)
         },
 
-        toDislike(id: PostID) {
-            this.react(id, Reactions.DISLIKE)
+        toDislike(id: PostID, counts: ReactionStatistics) {
+            this.react(id, Reactions.DISLIKE, counts)
         },
 
-        react(id: PostID, reaction: Reactions) {
+        react(id: PostID, reaction: Reactions, counts: ReactionStatistics) {
             const stringifyedPostID = id.toString()
             const currentReaction = this.reactions[stringifyedPostID]
             const isPostReacted = currentReaction !== undefined
@@ -30,7 +31,8 @@ export const useReactions = defineStore('reactions', {
             if (!isPostReacted) {
                 this.reactions[stringifyedPostID] = {
                     postID: id,
-                    reaction: reaction
+                    reaction: reaction,
+                    counts
                 }
             } else {
                 this.reactions[stringifyedPostID].reaction = reaction
