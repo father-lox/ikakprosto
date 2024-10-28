@@ -1,14 +1,16 @@
 <template>
     <article class="comment">
         <article class="avatar" :class="avatar.length === 0 ? 'avatar_empty' : ''">
-            <img class="avatar__image" :src="profilePicture" :alt="avatar.length !== 0 ? `Avatar by ${name}` : ''" />
+            <img class="avatar__image" :src="avatar" :alt="avatar.length !== 0 ? `Avatar by ${comment.user.fullName}` : ''" />
         </article>
         <div>
-            <p class="comment__user-name">{{ name }}</p>
-            <p class="body comment__body">{{ isDeleted ? 'This comment has been deleted.' : comment }} <button class="text-underline text-underline_low-opacity text-underline_color-primary comment__return-button" v-if="isDeleted" @click="isDeleted = false">Return</button></p>
+            <p class="comment__user-name">{{ comment.user.fullName }}</p>
+            <p class="body comment__body">{{ isDeleted ? 'This comment has been deleted.' : comment.body }} <button
+                    class="text-underline text-underline_low-opacity text-underline_color-primary comment__return-button"
+                    v-if="isDeleted" @click="returnComment">Return</button></p>
             <div class="comment__action-bar">
                 <public-date :public-date="date" />
-                <button v-if="!isDeleted" @click="isDeleted = true" class="text-underline delete">Delete</button>
+                <button v-if="!isDeleted" @click="deleteComment" class="text-underline delete">Delete</button>
             </div>
         </div>
     </article>
@@ -16,19 +18,17 @@
 
 <script lang="ts">
 import PublicDate from './PublicDate.vue';
+import UserComment from '../types/user-comment';
+import { PropType } from 'vue';
+import { useLocalCommentsStore } from '../stores/local-comments';
+import { mapStores } from 'pinia'
+
 
 export default {
     props: {
-        profilePicture: {
-            type: String
-        },
-        name: {
-            required: true,
-            type: String
-        },
         comment: {
             required: true,
-            type: String
+            type: Object as PropType<UserComment>
         },
         date: {
             required: true,
@@ -42,6 +42,20 @@ export default {
         return {
             isDeleted: false
         }
+    },
+    methods: {
+        deleteComment() {
+            this.localCommentsStore.delete(this.comment)
+            this.isDeleted = true
+        },
+
+        returnComment() {
+            this.isDeleted = false
+            this.localCommentsStore.return(this.comment)
+        }
+    },
+    computed: {
+        ...mapStores(useLocalCommentsStore)
     },
     components: { PublicDate }
 }

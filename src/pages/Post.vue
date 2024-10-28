@@ -4,8 +4,7 @@
         <section class="comment-section">
             <h3 class="heading">{{ comments.length }} comments</h3>
             <div class="comment-section__list">
-                <post-comment v-for="comment in comments" :date="new Date()" :comment="comment.body"
-                    :name="comment.user.fullName" />
+                <post-comment v-for="comment in comments" :date="new Date()" :comment="comment" />
             </div>
         </section>
     </page>
@@ -15,7 +14,7 @@
 import BlogPost from '../components/BlogPost.vue'
 import PostComment from '../components/PostComment.vue'
 import { usePostsStore } from '../stores/posts';
-import { useCommentsStore } from '../stores/comments'
+import { useLocalCommentsStore } from '../stores/local-comments'
 import { onMounted, ref } from 'vue';
 import Post from '../types/post';
 import UserComment from '../types/user-comment';
@@ -31,12 +30,14 @@ const props = defineProps({
 const postsStore = usePostsStore()
 const post = ref<Post | null>(null)
 
-const commentsStore = useCommentsStore()
+const commentsStore = useLocalCommentsStore()
 const comments = ref<UserComment[]>([])
 
 onMounted(async () => {
     post.value = await postsStore.loadByID(Number.parseInt(props.id))
-    comments.value = await commentsStore.loadAllCommentsByPost(Number.parseInt(props.id))
+    comments.value = (await commentsStore.loadAllCommentsByPost(Number.parseInt(props.id))).filter(userComment => {
+        return !commentsStore.isDeleted(userComment)
+    })
 });
 
 </script>

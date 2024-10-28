@@ -5,7 +5,7 @@ import Reactions from "../types/reactions";
 import ReactionStatistics from "../types/reaction-statistics";
 
 
-export const useLocalReactions = defineStore('local-reactions', {
+export const useLocalReactions = defineStore('localReactions', {
     state: () => ({ 
         reactions: {} as {[k: string]: UserReaction}
     }),
