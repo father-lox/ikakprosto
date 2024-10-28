@@ -1,5 +1,5 @@
 <template>
-    <general-reaction name="Trash" :count="countTrashes" class="trash-reaction">
+    <general-reaction :active="active" name="Trash" :count="countTrashes" class="trash-reaction">
         <template v-slot:fill-icon>
             <svg viewBox="0 0 13 11" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -23,6 +23,9 @@ export default {
         countTrashes: {
             type: Number,
             required: true
+        },
+        active: {
+            default: false,
         },
     },
 

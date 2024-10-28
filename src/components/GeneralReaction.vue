@@ -1,5 +1,5 @@
 <template>
-    <button @click="() => isActive = !isActive" :active="isActive" :class="`reaction ${isActive ? 'reaction_active' : ''}`">
+    <button :active="active" :class="`reaction ${active ? 'reaction_active' : ''}`">
         <div class="reaction__icon reaction__stroke-icon">
             <slot name="stroke-icon"></slot>
         </div>
@@ -26,11 +26,6 @@ export default {
             default: false,
         },
     },
-    data() {
-        return {
-            isActive: this.active
-        }
-    }
 }
 </script>
 

@@ -4,8 +4,8 @@
         <p class="body post__body">{{ props.post.body }}</p>
         <div class="post__action-bar">
             <div class="post__reactions reactions">
-                <like-action :count-likes="props.post.reactions.likes"></like-action>
-                <trash-action :count-trashes="props.post.reactions.dislikes"></trash-action>
+                <like-action @click="likePost" :active="isPostLiked" :count-likes="props.post.reactions.likes"></like-action>
+                <trash-action @click="dislikePost" :active="isPostDisliked" :count-trashes="props.post.reactions.dislikes"></trash-action>
             </div>
             <router-link v-if="!isPostPage" :to="`/post/${props.post.id}`" class="text-underline text-underline_low-opacity text-underline_color-primary post__action-link">Open comments</router-link>
             <public-date :public-date="props.publicDate" />
@@ -24,16 +24,55 @@ import PublicDate from './PublicDate.vue';
 import Post from '../types/post';
 import { useRoute } from 'vue-router';
 import { urlPathTemplates } from '../constants';
+import { useReactions } from '../stores/reactions';
+import Reactions from '../types/reactions';
+import { ref } from 'vue';
 
 interface PostProps {
     post: Post,
-    publicDate: Date
+    publicDate: Date,
 }
 
+const reactions = useReactions()
 const route = useRoute()
 const props = defineProps<PostProps>()
+const currentReaction = reactions.getByPostID(props.post.id)?.reaction
 
 const isPostPage = route.matched.findIndex(url => url.path === urlPathTemplates.post) > -1;
+const isPostLiked = ref<boolean>(currentReaction === Reactions.LIKE);
+const isPostDisliked = ref<boolean>(currentReaction === Reactions.DISLIKE);
+
+const likePost = () => {
+    if (isPostDisliked.value) {
+        props.post.reactions.dislikes--
+    }
+
+    if (!isPostLiked.value) {
+        reactions.toLike(props.post.id)
+        isPostLiked.value = true;
+        isPostDisliked.value = false;
+        props.post.reactions.likes++
+    } else {
+        isPostLiked.value = false;
+        props.post.reactions.likes--
+    }
+}
+
+const dislikePost = () => {
+    if (isPostLiked.value) {
+        props.post.reactions.likes--
+    }
+
+    if (!isPostDisliked.value) {
+        reactions.toDislike(props.post.id)
+        isPostDisliked.value = true
+        isPostLiked.value = false
+        props.post.reactions.dislikes++
+    } else {
+        isPostDisliked.value = false
+        props.post.reactions.dislikes--
+    }
+}
 </script>
 
 <style lang="scss">
