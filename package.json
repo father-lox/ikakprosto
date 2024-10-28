@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
-    "deploy": "gh-pages -d dist",
     "deploy-github": "gh-pages -d dist --repo git@github.com:father-lox/ikakprosto.git",
     "preview": "vite preview"
   },
